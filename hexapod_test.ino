@@ -14,7 +14,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(); // default address (0x4
  *  4   /--000--\    3
  */
  
-/* Servo specifications */
+/* Servo pin numbers - see above diagram for what HIP/KNEE #1-6 refers to */
 #define HIP1       5  
 #define KNEE1      7  //
 #define HIP2       4
@@ -28,7 +28,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(); // default address (0x4
 #define HIP6       0
 #define KNEE6      12 //
 
-/* Positions */
+/* Positions - in degrees */
 #define DOWN1      100
 #define UP1        0
 #define FORWARD1   70
@@ -53,8 +53,6 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(); // default address (0x4
 #define UP6        0
 #define FORWARD6   110
 #define BACKWARD6  70
-
-double sweepTime;
 
 /* FUNCTION PROTOTYPES (so order of function definitions doesn't matter) */
 void sweepServo(uint8_t n, uint16_t start_ang, uint16_t end_ang, double t, int wait = 0);
@@ -180,11 +178,11 @@ void legWalk()
 //  delay(1000);
 }
 
-/********************
- * USEFUL FUNCTIONS *
- ********************/
+/**************************
+ * USEFUL SERVO FUNCTIONS *
+ **************************/
  
-/* Set servo n to specified angle (in degrees), with optional wait (in milliseconds) */
+/* Set servo n to specified angle (in degrees), with optional wait (in milliseconds) after setting */
 void setServo(uint8_t n, uint16_t deg, int wait)
 {
   Serial.print(n); Serial.print(" ");Serial.print(deg); Serial.println(" deg");
@@ -201,7 +199,7 @@ void setAllServos(uint16_t angle)
   }
 }
 
-/* Untested: Sweep from start_ang to end_ang in t seconds, with optional wait (in milliseconds) */
+/* Sweep from start_ang to end_ang in t seconds, with optional wait (in milliseconds) after the sweep */
 void sweepServo(uint8_t n, uint16_t start_ang, uint16_t end_ang, double t, int wait)
 {
    uint16_t start_pulse = map(start_ang, 0, 180, SERVOMIN, SERVOMAX);
